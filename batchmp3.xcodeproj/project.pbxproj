@@ -7,8 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C352B8881D5EE0D000A6104E /* WavReader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C352B8861D5EE0CF00A6104E /* WavReader.cpp */; };
+		C352B88A1D5EEC4900A6104E /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C352B8891D5EEC4900A6104E /* main.cpp */; };
 		C3F18C3E1D579EE1007BF3E9 /* libmp3lame.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C3F18C3D1D579EE1007BF3E9 /* libmp3lame.a */; };
-		C3F18C411D579F5B007BF3E9 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C3F18C401D579F5B007BF3E9 /* main.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -24,9 +25,11 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		C352B8861D5EE0CF00A6104E /* WavReader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = WavReader.cpp; path = src/WavReader.cpp; sourceTree = SOURCE_ROOT; };
+		C352B8871D5EE0D000A6104E /* WavReader.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = WavReader.hpp; path = src/WavReader.hpp; sourceTree = SOURCE_ROOT; };
+		C352B8891D5EEC4900A6104E /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = main.cpp; path = src/main.cpp; sourceTree = SOURCE_ROOT; };
 		C3F18C2F1D578E97007BF3E9 /* batchmp3 */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = batchmp3; sourceTree = BUILT_PRODUCTS_DIR; };
 		C3F18C3D1D579EE1007BF3E9 /* libmp3lame.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libmp3lame.a; path = "lame-3.99.5/libmp3lame/.libs/libmp3lame.a"; sourceTree = "<group>"; };
-		C3F18C401D579F5B007BF3E9 /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -61,7 +64,9 @@
 		C3F18C311D578E97007BF3E9 /* batchmp3 */ = {
 			isa = PBXGroup;
 			children = (
-				C3F18C401D579F5B007BF3E9 /* main.cpp */,
+				C352B8891D5EEC4900A6104E /* main.cpp */,
+				C352B8861D5EE0CF00A6104E /* WavReader.cpp */,
+				C352B8871D5EE0D000A6104E /* WavReader.hpp */,
 			);
 			path = batchmp3;
 			sourceTree = "<group>";
@@ -122,7 +127,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C3F18C411D579F5B007BF3E9 /* main.cpp in Sources */,
+				C352B88A1D5EEC4900A6104E /* main.cpp in Sources */,
+				C352B8881D5EE0D000A6104E /* WavReader.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -166,6 +172,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = "lame-3.99.5/include";
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -204,6 +211,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = "lame-3.99.5/include";
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = macosx;
