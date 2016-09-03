@@ -9,6 +9,9 @@
 /* Begin PBXBuildFile section */
 		C352B8881D5EE0D000A6104E /* WavReader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C352B8861D5EE0CF00A6104E /* WavReader.cpp */; };
 		C352B88A1D5EEC4900A6104E /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C352B8891D5EEC4900A6104E /* main.cpp */; };
+		C357585F1D7B169500A16EE8 /* util.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C357585D1D7B169500A16EE8 /* util.cpp */; };
+		C390CA7E1D702BBF0087BD84 /* Encoder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C390CA7D1D702BBF0087BD84 /* Encoder.cpp */; };
+		C3C2F30F1D70CF43009CC758 /* filesystem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C3C2F30E1D70CF43009CC758 /* filesystem.cpp */; };
 		C3F18C3E1D579EE1007BF3E9 /* libmp3lame.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C3F18C3D1D579EE1007BF3E9 /* libmp3lame.a */; };
 /* End PBXBuildFile section */
 
@@ -26,8 +29,14 @@
 
 /* Begin PBXFileReference section */
 		C352B8861D5EE0CF00A6104E /* WavReader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = WavReader.cpp; path = src/WavReader.cpp; sourceTree = SOURCE_ROOT; };
-		C352B8871D5EE0D000A6104E /* WavReader.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = WavReader.hpp; path = src/WavReader.hpp; sourceTree = SOURCE_ROOT; };
+		C352B8871D5EE0D000A6104E /* WavReader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WavReader.h; path = src/WavReader.h; sourceTree = SOURCE_ROOT; };
 		C352B8891D5EEC4900A6104E /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = main.cpp; path = src/main.cpp; sourceTree = SOURCE_ROOT; };
+		C357585D1D7B169500A16EE8 /* util.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = util.cpp; path = src/util.cpp; sourceTree = SOURCE_ROOT; };
+		C357585E1D7B169500A16EE8 /* util.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = util.h; path = src/util.h; sourceTree = SOURCE_ROOT; };
+		C390CA7B1D67875A0087BD84 /* filesystem.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = filesystem.h; path = src/filesystem.h; sourceTree = SOURCE_ROOT; };
+		C390CA7C1D701DA60087BD84 /* Encoder.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Encoder.h; path = src/Encoder.h; sourceTree = SOURCE_ROOT; };
+		C390CA7D1D702BBF0087BD84 /* Encoder.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Encoder.cpp; path = src/Encoder.cpp; sourceTree = SOURCE_ROOT; };
+		C3C2F30E1D70CF43009CC758 /* filesystem.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = filesystem.cpp; path = src/filesystem.cpp; sourceTree = SOURCE_ROOT; };
 		C3F18C2F1D578E97007BF3E9 /* batchmp3 */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = batchmp3; sourceTree = BUILT_PRODUCTS_DIR; };
 		C3F18C3D1D579EE1007BF3E9 /* libmp3lame.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libmp3lame.a; path = "lame-3.99.5/libmp3lame/.libs/libmp3lame.a"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -66,7 +75,13 @@
 			children = (
 				C352B8891D5EEC4900A6104E /* main.cpp */,
 				C352B8861D5EE0CF00A6104E /* WavReader.cpp */,
-				C352B8871D5EE0D000A6104E /* WavReader.hpp */,
+				C352B8871D5EE0D000A6104E /* WavReader.h */,
+				C390CA7B1D67875A0087BD84 /* filesystem.h */,
+				C3C2F30E1D70CF43009CC758 /* filesystem.cpp */,
+				C390CA7C1D701DA60087BD84 /* Encoder.h */,
+				C390CA7D1D702BBF0087BD84 /* Encoder.cpp */,
+				C357585D1D7B169500A16EE8 /* util.cpp */,
+				C357585E1D7B169500A16EE8 /* util.h */,
 			);
 			path = batchmp3;
 			sourceTree = "<group>";
@@ -127,8 +142,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C3C2F30F1D70CF43009CC758 /* filesystem.cpp in Sources */,
 				C352B88A1D5EEC4900A6104E /* main.cpp in Sources */,
 				C352B8881D5EE0D000A6104E /* WavReader.cpp in Sources */,
+				C357585F1D7B169500A16EE8 /* util.cpp in Sources */,
+				C390CA7E1D702BBF0087BD84 /* Encoder.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

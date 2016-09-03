@@ -1,5 +1,5 @@
 //
-//  batchmp3 main
+//  Utility
 //
 //  Copyright (c) 2016 Akihiro Yamasaki. All rights reserved.
 //
@@ -18,34 +18,18 @@
 // You should have received a copy of the GNU General Public License
 // along with batchmp3.  If not, see <http://www.gnu.org/licenses/>.
 
-#include <vector>
-#include <list>
-#include <thread>
+#include <stdio.h>
+#include <stdarg.h>
+#include <mutex>
+#include "util.h"
 
-#include "WavReader.h"
-#include "filesystem.h"
-#include "Encoder.h"
+std::mutex g_TraceMutex;
 
-
-int main(int argc, const char * argv[])
+void Trace(FILE *stream, const char *format, ...)
 {
-	std::vector<Path> files = EnumWavFiles(argc <= 1 ? nullptr : argv[1]);
-
-	EncodeSourceQueue source_queue;
-	source_queue.Push(files);
-
-	std::list<Encoder> encoders;
-	unsigned int concurrency = std::thread::hardware_concurrency();
-	
-	// Start encoding
-	for (unsigned int i = 0; i < concurrency; ++i) {
-		encoders.emplace_back(&source_queue);
-	}
-	
-	// Wait for finishing
-	for (auto& encoder : encoders) {
-		encoder.Join();
-	}
-
-	return 0;
+	std::lock_guard<std::mutex> lock(g_TraceMutex);
+	va_list args;
+	va_start(args, format);
+	vfprintf(stream, format, args);
+	va_end(args);
 }

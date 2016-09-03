@@ -20,7 +20,8 @@
 
 #include <iostream>
 #include <assert.h>
-#include "WavReader.hpp"
+#include "WavReader.h"
+#include "util.h"
 
 #define FOURCC(fcc) (((uint32_t)(fcc) >> 24 & 0xFF) | (uint32_t)(fcc) >> 8 & 0xFF00 | (uint32_t)(fcc) << 8 & 0xFF0000 | (uint32_t)(fcc) << 24 & 0xFF000000)
 
@@ -38,7 +39,7 @@ bool WavReader::Open(std::shared_ptr<std::istream> is)
 		is->read(RIFFdata, 4);
 
 		if (RIFF.id != FOURCC('RIFF') || RIFF.size < 4 || strcmp(RIFFdata, "WAVE") != 0) {
-			std::cerr << "This is not WAVE file." << std::endl;
+			Trace(stderr, "This is not WAVE file.\n");
 			return false;
 		}
 
@@ -47,8 +48,8 @@ bool WavReader::Open(std::shared_ptr<std::istream> is)
 			is->seekg(sizeof(RiffChunkHeader) + i);
 			is->read(reinterpret_cast<char *>(&chunk_header), sizeof(RiffChunkHeader));
 			i += sizeof(RiffChunkHeader);
-			chunks_.insert(std::make_pair(chunk_header.id, Chunk(i, chunk_header.size)));
-			//std::cerr << (char)(chunk_header.id & 0xFF) << (char)(chunk_header.id >> 8 & 0xFF) << (char)(chunk_header.id >> 16 & 0xFF) << (char)(chunk_header.id >> 24 & 0xFF) << std::endl;
+			chunks_.insert(std::make_pair(chunk_header.id, Chunk(sizeof(RiffChunkHeader) + i, chunk_header.size)));
+			//Trace(stderr, "%c%c%c%c\n", (chunk_header.id & 0xFF), (chunk_header.id >> 8 & 0xFF), (chunk_header.id >> 16 & 0xFF), (chunk_header.id >> 24 & 0xFF));
 
 			if (chunk_header.id == FOURCC('fmt ')) {
 				is->read(reinterpret_cast<char *>(&format_), sizeof(Format));
@@ -57,17 +58,22 @@ bool WavReader::Open(std::shared_ptr<std::istream> is)
 		}
 		
 		if (chunks_.find(FOURCC('fmt ')) == chunks_.end() || chunks_.find(FOURCC('data')) == chunks_.end()) {
-			std::cerr << "This wave file is corrupted." << std::endl;
+			Trace(stderr, "This wave file is corrupted.\n");
 			return false;
 		}
 
-		if (format_.format_tag != 0x01/* Microsoft PCM */) {
-			std::cerr << "This codec is not supported." << std::endl;
+		if (format_.format_tag != FormatTag_PCM && format_.format_tag != FormatTag_IEEE_FLOAT) {
+			Trace(stderr, "This codec is not supported.\n");
 			return false;
 		}
 
+		if (format_.format_tag == FormatTag_PCM && format_.bps != 16) {
+			Trace(stderr, "%d bps is not supported.\n", format_.bps);
+		}
+		
 		if (format_.channels != 1 && format_.channels != 2) {
-			std::cerr << format_.channels << " channels are not supported." << std::endl;
+			Trace(stderr, "%d channels are not supported.\n", format_.channels);
+			return false;
 		}
 		
 		stream_ = std::move(is);

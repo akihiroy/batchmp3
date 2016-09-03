@@ -38,6 +38,11 @@ public:
 		uint16_t bps;				///< bits per sample
 	};
 
+	enum FormatTag {
+		FormatTag_PCM = 0x01,
+		FormatTag_IEEE_FLOAT = 0x03
+	};
+	
 	bool Open(std::shared_ptr<std::istream> is);
 	
 	const Format& GetFormat() const { return format_; }

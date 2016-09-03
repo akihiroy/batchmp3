@@ -1,5 +1,5 @@
 //
-//  batchmp3 main
+//  Encoder
 //
 //  Copyright (c) 2016 Akihiro Yamasaki. All rights reserved.
 //
@@ -18,34 +18,46 @@
 // You should have received a copy of the GNU General Public License
 // along with batchmp3.  If not, see <http://www.gnu.org/licenses/>.
 
+#ifndef Encoder_h
+#define Encoder_h
+
 #include <vector>
-#include <list>
-#include <thread>
-
-#include "WavReader.h"
+#include <deque>
+#include <mutex>
+#include <pthread.h>
 #include "filesystem.h"
-#include "Encoder.h"
 
 
-int main(int argc, const char * argv[])
+class EncodeSourceQueue
 {
-	std::vector<Path> files = EnumWavFiles(argc <= 1 ? nullptr : argv[1]);
-
-	EncodeSourceQueue source_queue;
-	source_queue.Push(files);
-
-	std::list<Encoder> encoders;
-	unsigned int concurrency = std::thread::hardware_concurrency();
+private:
+	std::deque<Path> queue_;
+	std::mutex mutex_;
 	
-	// Start encoding
-	for (unsigned int i = 0; i < concurrency; ++i) {
-		encoders.emplace_back(&source_queue);
-	}
-	
-	// Wait for finishing
-	for (auto& encoder : encoders) {
-		encoder.Join();
-	}
+public:
+	void Push(const std::vector<Path>& files);
+	bool Pop(Path& val);
+};
 
-	return 0;
-}
+
+class Encoder
+{
+private:
+	pthread_t thread_;
+	EncodeSourceQueue *source_queue_;
+
+	Encoder(const Encoder&);
+	Encoder(Encoder&& obj);
+
+	static void *ThreadProc(void *arg);
+	void *Thread();
+
+public:
+	Encoder(EncodeSourceQueue *queue);
+	~Encoder();
+	
+	void Join();
+};
+
+
+#endif /* Encoder_h */
