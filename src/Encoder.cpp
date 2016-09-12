@@ -56,9 +56,7 @@ Encoder::~Encoder()
 
 void Encoder::Join()
 {
-	if (thread_) {
-		pthread_join(thread_, nullptr);
-	}
+	pthread_join(thread_, nullptr);
 }
 
 void *Encoder::ThreadProc(void *arg)
@@ -80,7 +78,7 @@ void *Encoder::Thread()
 	while (source_queue_->Pop(source_file)) {
 		WavReader reader;
 		if (reader.Open(std::make_shared<std::ifstream>(source_file.c_str(), std::ios::in | std::ios::binary))) {
-			Trace(stdout, "Start %s\n", source_file.c_str());
+			Trace(stdout, _T("Start %s\n"), source_file.c_str());
 
 			std::unique_ptr<lame_global_flags, lame_deleter> lame(lame_init());
 			
@@ -89,12 +87,12 @@ void *Encoder::Thread()
 			lame_set_mode(lame.get(), fmt.channels == 1 ? MONO : JOINT_STEREO);
 			lame_set_in_samplerate(lame.get(), fmt.sample_rate);
 			if (lame_init_params(lame.get()) < 0) {
-				Trace(stderr, "Invalid encoder parameter.\n");
+				Trace(stderr, _T("Invalid encoder parameter.\n"));
 				break;
 			}
 			
 			Path mp3_file = source_file;
-			mp3_file.SetExt("mp3");
+			mp3_file.SetExt(_T("mp3"));
 			
 			std::ofstream os(mp3_file.c_str(), std::ios::out | std::ios::binary);
 			
@@ -127,7 +125,7 @@ void *Encoder::Thread()
 			if (res > 0) {
 				os.write(reinterpret_cast<const char *>(mp3buffer.data()), res);
 			}
-			Trace(stdout, "Finish %s\n", source_file.c_str());
+			Trace(stdout, _T("Finish %s\n"), source_file.c_str());
 		}
 	}
 	return nullptr;

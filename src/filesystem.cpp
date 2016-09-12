@@ -18,37 +18,13 @@
 // You should have received a copy of the GNU General Public License
 // along with batchmp3.  If not, see <http://www.gnu.org/licenses/>.
 
-#include <locale>
 #include <dirent.h>
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <unistd.h>
 #include "filesystem.h"
 
-namespace {
-	const Path::value_type *GetExt(const Path::value_type *filename, size_t len)
-	{
-		for (size_t i = 0; i < len; ++i) {
-			if (filename[len - i - 1] == '.') {
-				return filename + len - i;
-			}
-		}
-		return filename + len;	// return emptry string
-	}
-
-	template<class CharT>
-	std::basic_string<CharT> tolower(std::basic_string<CharT> str)
-	{
-		std::locale loc;
-		for (auto& c: str) {
-			c = std::tolower(c, loc);
-		}
-		return std::move(str);
-	}
-	
-}
-
-std::vector<Path> EnumWavFiles(const char * path)
+std::vector<Path> EnumWavFiles(const Path::value_type * path)
 {
 	std::vector<Path> files;
 	

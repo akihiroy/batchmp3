@@ -21,6 +21,14 @@
 #ifndef util_h
 #define util_h
 
-void Trace(FILE *stream, const char *format, ...);
+#if defined(_WIN32)
+#include <tchar.h>
+#else
+#define _T(x) x
+#define TCHAR char
+#endif
+
+void Trace(FILE *stream, const TCHAR *format, ...);
+
 
 #endif /* util_h */

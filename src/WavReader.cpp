@@ -19,6 +19,7 @@
 // along with batchmp3.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <iostream>
+#include <algorithm>
 #include <assert.h>
 #include "WavReader.h"
 #include "util.h"
@@ -39,7 +40,7 @@ bool WavReader::Open(std::shared_ptr<std::istream> is)
 		is->read(RIFFdata, 4);
 
 		if (RIFF.id != FOURCC('RIFF') || RIFF.size < 4 || strcmp(RIFFdata, "WAVE") != 0) {
-			Trace(stderr, "This is not WAVE file.\n");
+			Trace(stderr, _T("This is not WAVE file.\n"));
 			return false;
 		}
 
@@ -58,21 +59,21 @@ bool WavReader::Open(std::shared_ptr<std::istream> is)
 		}
 		
 		if (chunks_.find(FOURCC('fmt ')) == chunks_.end() || chunks_.find(FOURCC('data')) == chunks_.end()) {
-			Trace(stderr, "This wave file is corrupted.\n");
+			Trace(stderr, _T("This wave file is corrupted.\n"));
 			return false;
 		}
 
 		if (format_.format_tag != FormatTag_PCM && format_.format_tag != FormatTag_IEEE_FLOAT) {
-			Trace(stderr, "This codec is not supported.\n");
+			Trace(stderr, _T("This codec is not supported.\n"));
 			return false;
 		}
 
 		if (format_.format_tag == FormatTag_PCM && format_.bps != 16) {
-			Trace(stderr, "%d bps is not supported.\n", format_.bps);
+			Trace(stderr, _T("%d bps is not supported.\n"), format_.bps);
 		}
 		
 		if (format_.channels != 1 && format_.channels != 2) {
-			Trace(stderr, "%d channels are not supported.\n", format_.channels);
+			Trace(stderr, _T("%d channels are not supported.\n"), format_.channels);
 			return false;
 		}
 		

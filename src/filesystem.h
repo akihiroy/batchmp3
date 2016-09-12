@@ -23,14 +23,21 @@
 
 #include <string>
 #include <vector>
+#include <locale>
+#include "util.h"
 
 
 class Path {
 public:
+#if defined(_WIN32)
+	typedef wchar_t value_type;
+	const static value_type separator = _T('\\');
+#else
 	typedef char value_type;
-	typedef std::basic_string<value_type> string_type;
 	const static value_type separator = '/';
-	
+#endif
+	typedef std::basic_string<value_type> string_type;
+
 	Path() {}
 	Path(const value_type *path) : path_(path) {
 		// Remove if last character is separator
@@ -56,7 +63,7 @@ public:
 	{
 		const size_t len = path_.size();
 		for (size_t i = 0; i < len; ++i) {
-			if (path_[len - i - 1] == '.') {
+			if (path_[len - i - 1] == _T('.')) {
 				return path_.c_str() + len - i;
 			} else if (path_[len - i - 1] == separator) {
 				break;
@@ -69,8 +76,8 @@ public:
 	{
 		size_t i = GetExt() - path_.c_str();
 		path_.erase(path_.begin() + i, path_.end());
-		if (i > 0 && path_[i - 1] != '.') {
-			path_.append(1, '.');
+		if (i > 0 && path_[i - 1] != _T('.')) {
+			path_.append(1, _T('.'));
 		}
 		path_.append(ext);
 	}
@@ -87,6 +94,29 @@ private:
 	string_type path_;
 };
 
-std::vector<Path> EnumWavFiles(const char * path);
+
+namespace {
+	inline const Path::value_type *GetExt(const Path::value_type *filename, size_t len)
+	{
+		for (size_t i = 0; i < len; ++i) {
+			if (filename[len - i - 1] == _T('.')) {
+				return filename + len - i;
+			}
+		}
+		return filename + len;	// return emptry string
+	}
+
+	template<class CharT>
+	std::basic_string<CharT> tolower(std::basic_string<CharT> str)
+	{
+		std::locale loc;
+		for (auto& c : str) {
+			c = std::tolower(c, loc);
+		}
+		return std::move(str);
+	}
+}
+
+std::vector<Path> EnumWavFiles(const Path::value_type * path);
 
 #endif /* filesystem_h */

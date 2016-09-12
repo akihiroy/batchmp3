@@ -26,8 +26,13 @@
 #include "filesystem.h"
 #include "Encoder.h"
 
+#if !defined(_WIN32)
+#define _tmain main
+#define TCHAR char
+#endif
 
-int main(int argc, const char * argv[])
+
+int _tmain(int argc, TCHAR * argv[])
 {
 	std::vector<Path> files = EnumWavFiles(argc <= 1 ? nullptr : argv[1]);
 

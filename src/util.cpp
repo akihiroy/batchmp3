@@ -25,11 +25,15 @@
 
 std::mutex g_TraceMutex;
 
-void Trace(FILE *stream, const char *format, ...)
+void Trace(FILE *stream, const TCHAR *format, ...)
 {
 	std::lock_guard<std::mutex> lock(g_TraceMutex);
 	va_list args;
 	va_start(args, format);
+#if defined(_WIN32)
+	vfwprintf(stream, format, args);
+#else
 	vfprintf(stream, format, args);
+#endif
 	va_end(args);
 }
