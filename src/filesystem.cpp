@@ -18,6 +18,7 @@
 // You should have received a copy of the GNU General Public License
 // along with batchmp3.  If not, see <http://www.gnu.org/licenses/>.
 
+#include <string.h>
 #include <dirent.h>
 #include <sys/types.h>
 #include <sys/stat.h>
@@ -37,7 +38,8 @@ std::vector<Path> EnumWavFiles(const Path::value_type * path)
 	
 	struct dirent *entry;
 	while ((entry = readdir(dir))) {
-		if (strcmp(tolower<char>(GetExt(entry->d_name, entry->d_namlen)).c_str(), "wav") == 0) {
+		const size_t len = strlen(entry->d_name);
+		if (strcmp(tolower<char>(GetExt(entry->d_name, len)).c_str(), "wav") == 0) {
 			Path cur(path);
 			cur.Append(entry->d_name);
 			

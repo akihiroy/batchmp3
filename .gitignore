@@ -1,7 +1,9 @@
+build
 *.o
 *.lo
 *.la
 Makefile
+autom4te.cache
 .deps
 .libs
 config.h

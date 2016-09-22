@@ -20,6 +20,7 @@
 
 #include <iostream>
 #include <algorithm>
+#include <string.h>
 #include <assert.h>
 #include "WavReader.h"
 #include "util.h"
