@@ -25,6 +25,7 @@
 #include "WavReader.h"
 #include "filesystem.h"
 #include "Encoder.h"
+#include "util.h"
 
 #if !defined(_WIN32)
 #define _tmain main
@@ -35,6 +36,15 @@
 int _tmain(int argc, TCHAR * argv[])
 {
 	std::vector<Path> files = EnumWavFiles(argc <= 1 ? nullptr : argv[1]);
+	if (files.empty()) {
+		Trace(stdout, _T("No wav files found.\n"));
+		Trace(stdout, _T("usage: batchmp3 [<source_path>]\n"));
+		return 1;
+	} else if (files.size() == 1) {
+		Trace(stdout, _T("1 wav file found.\n"));
+	} else {
+		Trace(stdout, _T("%d wav files found.\n"), files.size());
+	}
 
 	EncodeSourceQueue source_queue;
 	source_queue.Push(files);

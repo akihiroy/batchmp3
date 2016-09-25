@@ -12,6 +12,7 @@ config.status
 libtool
 stamp-h1
 lame
+batchmp3
 
 *.vcxproj.user
 *.VC.db
