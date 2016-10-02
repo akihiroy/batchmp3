@@ -31,6 +31,15 @@ std::vector<Path> EnumWavFiles(const Path::value_type * path)
 	
 	if (path == nullptr) {
 		path = ".";
+	} else {
+		if (strcmp(tolower<char>(GetExt(path, strlen(path))).c_str(), "wav") == 0) {
+			struct stat st;
+			if (stat(path, &st) == 0 && (st.st_mode & S_IFMT) == S_IFREG) {
+				// path is wav file
+				files.emplace_back(path);
+				return files;
+			}
+		}
 	}
 	
 	DIR *dir = opendir(path);

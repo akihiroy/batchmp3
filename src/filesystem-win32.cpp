@@ -27,6 +27,15 @@ std::vector<Path> EnumWavFiles(const Path::value_type* path)
 	
 	if (path == nullptr) {
 		path = L".";
+	} else {
+		if (wcscmp(tolower<wchar_t>(GetExt(path, wcslen(path))).c_str(), L"wav") == 0) {
+			DWORD attr = GetFileAttributes(path);
+			if (attr != INVALID_FILE_ATTRIBUTES && (attr & FILE_ATTRIBUTE_DIRECTORY) == 0) {
+				// path is wav file
+				files.emplace_back(path);
+				return files;
+			}
+		}
 	}
 
 	std::wstring strFindPath = path;
